@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+Todo
+{% endblock %}
+{% block body %}
+<h1>Todo List</h1>
+<ul>
+{% for task in tasks %}
+	<li>{{ task.description }}</li>
+{% endfor %}
+</ul>
+{% endblock %}
