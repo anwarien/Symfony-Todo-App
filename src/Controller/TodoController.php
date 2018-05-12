@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller;
 
+use App\Form\TaskType;
 use App\Entity\Task;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -40,19 +41,34 @@ class TodoController extends AbstractController{
 	 * @Method({"GET", "POST"})
 	 */
 
-	public function add() {
+	public function add(Request $request) {
 		$task = new Task();
-        $task->setTask('Write a blog post');
         $task->setDueDate(new \DateTime('tomorrow'));
 
-        $form = $this->createFormBuilder($task)
-            ->add('task', TextType::class)
-            ->add('dueDate', DateType::class)
-            ->add('save', SubmitType::class, array('label' => 'Create Task'))
-            ->getForm();
+        $form = $this->createForm(TaskType::class, $task);
+	
+		$form->handleRequest($request);
 
+		if ($form->isSubmitted() && $form->isValid()) {
+			$task = $form->getData();
+
+			$entityManager = $this->getDoctrine()->getManager();
+
+			$entityManager->persist($task);
+			$entityManager->flush();
+			return $this->redirectToRoute('home_page');
+
+		}
         return $this->render('add.html.twig', array(
             'form' => $form->createView(),
         ));
 	}
+	
+	/**
+	 * @Route("/remove", name="remove")
+	 */
+	
+	public function remove(Request $request) {
+		$task = 
+}
 }

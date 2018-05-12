@@ -6,7 +6,7 @@ Todo
 <h1>Todo List</h1>
 <ul>
 {% for task in tasks %}
-	<li>{{ task.description }}</li>
+	<li>{{ task.task }}, due on {{ task.dueDate | date('M d, Y')}}</li>
 {% endfor %}
 </ul>
 {% endblock %}
