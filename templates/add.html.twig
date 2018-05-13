@@ -3,9 +3,16 @@
 {% block title %}
 Add an item
 {% endblock %}
+{% block pageTitle %}
+Add a Task:
+{% endblock %}
 {% block body %}
-<h1>Add an item</h1>
+<div class="container form">
 {{ form_start(form) }}
 {{ form_widget(form) }}
 {{ form_end(form) }}
+</div>
+<div class="container">
+	<p><a href="{{ path('home_page') }}">nevermind</a></p>
+</div>
 {% endblock %}

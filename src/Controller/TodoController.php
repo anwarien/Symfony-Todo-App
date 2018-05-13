@@ -27,10 +27,7 @@ class TodoController extends AbstractController{
 			->findAll();
 
 		if (!$tasks) {
-			/*throw $this->createNotFoundException(
-				'No tasks in list'
-			);*/
-			return $this->render('base.html.twig');
+			return $this->render('no-task.html.twig');
 		}
 		
 		return $this->render('homepage.html.twig', ['tasks'=> $tasks]);
@@ -65,10 +62,23 @@ class TodoController extends AbstractController{
 	}
 	
 	/**
-	 * @Route("/remove", name="remove")
+	 * @Route("/remove/{id}", name="remove")
 	 */
 	
-	public function remove(Request $request) {
-		$task = 
-}
+	public function remove(Request $request, $id) {
+		$entityManager = $this->getDoctrine()->getManager();
+
+		$task = $entityManager->getRepository(Task::class)->find($id);
+
+		if (!$task) {
+        	throw $this->createNotFoundException(
+            	'No product found for id '.$id
+        	);
+    	}
+		
+		$entityManager->remove($task);
+		$entityManager->flush();
+
+		return $this->redirectToRoute('home_page');
+	}
 }

@@ -1,12 +1,25 @@
 {% extends 'base.html.twig' %}
 {% block title %}
 Todo
-{% endblock %}
+{% endblock %}	
+{% block pageTitle %}Tasks to complete:{% endblock %}
 {% block body %}
-<h1>Todo List</h1>
-<ul>
+<div class="container">
+<table class="table table-hover">
+<thead>
+<tr>
+  <th scope="col">Task</th>
+  <th scope="col">Due Date</th>
+  <th scope="col">Action</th>
+  <th scope="col"></th>
+</tr>
+</thead>
+<tbody>
 {% for task in tasks %}
-	<li>{{ task.task }}, due on {{ task.dueDate | date('M d, Y')}}</li>
+	<tr class="table-light"><td>{{ task.task }}</td><td>{{ task.dueDate | date('M d, Y')}}</td><td><a href="{{ path('remove', {'id':task.id}) }}" id="{{task.id}}"><span id="complete">Complete</span></a></td><td><a href="#"><span id="quit">X</span></a></td></tr>
 {% endfor %}
-</ul>
+<tr class="table-light"><td><a href="{{ path('add') }}">Add a task...</a></td><td></td><td></td><td></td></tr>
+</tbody>
+</table>
+</div>
 {% endblock %}

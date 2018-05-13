@@ -1,0 +1,32 @@
+body {
+  background-color: #f4f4f4; }
+
+.top {
+  margin-top: 3%; }
+
+.form {
+  background-color: white;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  text-align: center; }
+
+p {
+  text-align: center; }
+
+.pageTitle h4 {
+  text-align: center;
+  margin-top: 3%;
+  margin-bottom: 3%;
+  font-family: 'Lekton', sans-serif; }
+
+#complete {
+  color: #18bc9c; }
+
+#quit {
+  color: red; }
+
+#hr {
+  background-color: #18bc9c;
+  padding-top: .5%; }
+
+/*# sourceMappingURL=styles.css.map */
