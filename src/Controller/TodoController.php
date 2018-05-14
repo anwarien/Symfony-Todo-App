@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use App\Form\TaskType;
 use App\Entity\Task;
+use App\Entity\CompletedTask;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -26,11 +27,35 @@ class TodoController extends AbstractController{
 			->getRepository(Task::class)
 			->findAll();
 
+		$completedTasks = $this->getDoctrine()
+			->getRepository(CompletedTask::class)
+			->findAll();
+
+		$tasksNum = count($tasks);
+		$cTasksNum = count($completedTasks);
+		$totalTasks = $tasksNum + $cTasksNum;
+		$barWidth = 0;
+		if ($totalTasks != 0)
+			$barWidth = ($cTasksNum / $totalTasks) * 100;
+
 		if (!$tasks) {
-			return $this->render('no-task.html.twig');
+			return $this->render('no-task.html.twig',[
+					'completedTasks'=> $completedTasks,
+					'tasksNum'=> $tasksNum,
+					'barWidth'=> $barWidth,
+					'totalTasks'=> $totalTasks
+				]
+			);
 		}
 		
-		return $this->render('homepage.html.twig', ['tasks'=> $tasks]);
+		return $this->render('homepage.html.twig',[
+				'tasks'=> $tasks,
+				'completedTasks'=> $completedTasks,
+				'tasksNum'=> $tasksNum,
+				'barWidth'=> $barWidth,
+				'totalTasks'=> $totalTasks
+			]
+		);
 	}
 	
 	/**
@@ -39,6 +64,7 @@ class TodoController extends AbstractController{
 	 */
 
 	public function add(Request $request) {
+		
 		$task = new Task();
         $task->setDueDate(new \DateTime('tomorrow'));
 
@@ -47,32 +73,90 @@ class TodoController extends AbstractController{
 		$form->handleRequest($request);
 
 		if ($form->isSubmitted() && $form->isValid()) {
+
 			$task = $form->getData();
 
 			$entityManager = $this->getDoctrine()->getManager();
-
 			$entityManager->persist($task);
 			$entityManager->flush();
+			
 			return $this->redirectToRoute('home_page');
 
 		}
-        return $this->render('add.html.twig', array(
-            'form' => $form->createView(),
+
+		return $this->render('add.html.twig', array(
+        	'form' => $form->createView(),
         ));
 	}
-	
+
+	/**
+	 * @Route("/complete/clear", name="clear")
+	 * @Method({"POST", "GET"})
+	 */
+
+	public function clear()
+	{
+		$entityManager = $this->getDoctrine()->getManager();
+
+		$completedTasks = $this->getDoctrine()
+			->getRepository(CompletedTask::class)
+			->findAll();
+
+		foreach ($completedTasks as $task) {
+
+			$entityManager->remove($task);
+			$entityManager->flush();
+		
+		}
+
+		return $this->redirectToRoute('home_page');
+	}
+
+	/**
+	 * @Route("/complete/{id}", name="complete")
+	 * @Method({"POST", "GET"})
+	 */
+
+	public function complete($id) {
+		
+		$entityManager = $this->getDoctrine()->getManager();
+
+		$completedTask = new CompletedTask();
+		$completedTask->setDateCompleted(new \DateTime());
+
+		$task = $entityManager->getRepository(Task::class)->find($id);
+
+		if (!$task) {
+			throw $this->createNotFoundException(
+				'No task found with id'.$id
+			);
+		}
+
+		$completedTask->setTask($task->getTask());
+
+		$entityManager->persist($completedTask);
+		$entityManager->flush();
+		
+		$entityManager->remove($task);
+		$entityManager->flush();
+
+		return $this->redirectToRoute('home_page');
+	}
+
 	/**
 	 * @Route("/remove/{id}", name="remove")
+	 * @Method({"DELETE", "GET"})
 	 */
 	
 	public function remove(Request $request, $id) {
+		
 		$entityManager = $this->getDoctrine()->getManager();
 
 		$task = $entityManager->getRepository(Task::class)->find($id);
 
 		if (!$task) {
         	throw $this->createNotFoundException(
-            	'No product found for id '.$id
+            	'No task found with id '.$id
         	);
     	}
 		

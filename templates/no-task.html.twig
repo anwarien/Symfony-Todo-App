@@ -1,12 +1,44 @@
 {% extends 'base.html.twig' %}
-
+{% block javascripts %}
+<script src="{{ asset('js/jquery-3.3.1.slim.min.js') }}"></script>
+<script src="{{ asset('js/index.js') }}"></script>
+{% endblock %}
 {% block pageTitle %}Tasks to complete:{% endblock %}
 {% block body %}
+<div class="container">
+<div class="progress">
+<div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width: {{ barWidth }}%;" ari    a-valuenow="{{ totalTasks - tasksNum }}" aria-valuemin="0" aria-valuemax="{{ totalTasks }}"></div>
+</div>
+</div>
 <div class="container">
 <table class="table table-hover">
 <tbody>
 	<tr class="table-light"><td><a href="{{ path('add') }}">Add a task</a></td><td></tr>
 </tbody>
 </table>
+</div>
+<div class="container top">
+<h1 id="hr"></h1>
+</div>
+<div class="container pageTitle">
+<h4>Completed Tasks:</h4>
+</div>
+<div class="container">
+<table class="table table-hover">
+<thead>
+<tr>
+<th scope="col">Task</th>
+<th scope="col">Date Completed</th>
+</tr>
+</thead>
+<tbody>
+{% for task in completedTasks %}
+<tr class="table-light"><td>{{ task.task }}</td><td>{{ task.dateCompleted | date('M d, Y')}}</td></tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+<div class="container">
+<button class="btn btn-secondary" id="clearCompleted">Clear completed tasks</button>
 </div>
 {% endblock %}

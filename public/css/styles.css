@@ -11,13 +11,17 @@ body {
   text-align: center; }
 
 p {
-  text-align: center; }
+  margin-top: 1%;
+  text-align: left; }
 
 .pageTitle h4 {
   text-align: center;
   margin-top: 3%;
   margin-bottom: 3%;
-  font-family: 'Lekton', sans-serif; }
+  font-family: "Lekton", sans-serif; }
+
+a:hover {
+  text-decoration: none; }
 
 #complete {
   color: #18bc9c; }
