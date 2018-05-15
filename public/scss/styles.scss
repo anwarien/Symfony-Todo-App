@@ -18,7 +18,8 @@ body{
 
 p{
 	margin-top: 1%;
-	text-align: left;
+	text-align: center;
+	color: $green;
 }
 
 .pageTitle{
@@ -43,6 +44,6 @@ a:hover{
 }
 
 #hr{
-	background-color: $green;
-	padding-top: .5%;
+	background-color: $hr-color;
+	padding-top: .15%;
 }

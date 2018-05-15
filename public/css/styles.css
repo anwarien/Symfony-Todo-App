@@ -12,7 +12,8 @@ body {
 
 p {
   margin-top: 1%;
-  text-align: left; }
+  text-align: center;
+  color: #18bc9c; }
 
 .pageTitle h4 {
   text-align: center;
@@ -31,6 +32,6 @@ a:hover {
 
 #hr {
   background-color: #18bc9c;
-  padding-top: .5%; }
+  padding-top: .15%; }
 
 /*# sourceMappingURL=styles.css.map */

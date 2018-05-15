@@ -7,10 +7,24 @@
 Todo
 {% endblock %}	
 {% block pageTitle %}Tasks to Complete:{% endblock %}
+{% block barMessage %}
+<p>{{ barWidth|number_format(0) }}%</p>
+{% endblock %}
 {% block body %}
 <div class="container">
 <div class="progress">
-<div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width: {{ barWidth }}%;" aria-valuenow="{{ totalTasks - tasksNum }}" aria-valuemin="0" aria-valuemax="{{ totalTasks }}"></div>
+{% if barWidth <= 25 %}
+<div class="progress-bar bg-danger" role="progressbar" role="progressbar" style="width: {{ barWidth }}%;" aria-valuenow="{{ totalTasks - tasksNum }}" aria-valuemin="0" aria-valuemax="{{ totalTasks }}"></div>
+{% endif %}
+{% if barWidth <= 49 and barWidth >= 26 %}
+<div class="progress-bar bg-warning" role="progressbar" role="progressbar" style="width: {{ barWidth }}%;" aria-valuenow="{{ totalTasks - tasksNum }}" aria-valuemin="0" aria-valuemax="{{ totalTasks }}"></div>
+{% endif %}
+{% if barWidth <= 74 and barWidth >= 50 %}
+<div class="progress-bar bg-info" role="progressbar" role="progressbar" style="width: {{ barWidth }}%;" aria-valuenow="{{ totalTasks - tasksNum }}" aria-valuemin="0" aria-valuemax="{{ totalTasks }}"></div>
+{% endif %}
+{% if barWidth < 100 and barWidth >= 75 %}
+<div class="progress-bar bg-success" role="progressbar" role="progressbar" style="width: {{ barWidth }}%;" aria-valuenow="{{ totalTasks - tasksNum }}" aria-valuemin="0" aria-valuemax="{{ totalTasks }}"></div>
+{% endif %}
 </div>
 </div>
 <div class="container">
@@ -53,6 +67,6 @@ Todo
 </table>
 </div>
 <div class="container">
-<button class="btn btn-secondary" id="clearCompleted">Clear completed tasks</button>
+<button class="btn btn-outline-success" id="clearCompleted">Clear completed tasks</button>
 </div>
 {% endblock %}

@@ -3,11 +3,17 @@
 <script src="{{ asset('js/jquery-3.3.1.slim.min.js') }}"></script>
 <script src="{{ asset('js/index.js') }}"></script>
 {% endblock %}
-{% block pageTitle %}Tasks to complete:{% endblock %}
+{% block pageTitle %}Tasks to Complete:{% endblock %}
+{% block barMessage %}
+{% if barWidth == 100 %}
+<p>All tasks have been completed!</p>
+{% endif %}
+<p>{{ barWidth|number_format(0) }}%</p>
+{% endblock %}
 {% block body %}
 <div class="container">
 <div class="progress">
-<div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width: {{ barWidth }}%;" ari    a-valuenow="{{ totalTasks - tasksNum }}" aria-valuemin="0" aria-valuemax="{{ totalTasks }}"></div>
+<div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width: {{ barWidth }}%;" aria-valuenow="{{ totalTasks - tasksNum }}" aria-valuemin="0" aria-valuemax="{{ totalTasks }}"></div>
 </div>
 </div>
 <div class="container">
@@ -39,6 +45,6 @@
 </table>
 </div>
 <div class="container">
-<button class="btn btn-secondary" id="clearCompleted">Clear completed tasks</button>
+<button class="btn btn-outline-success" id="clearCompleted">Clear completed tasks</button>
 </div>
 {% endblock %}
