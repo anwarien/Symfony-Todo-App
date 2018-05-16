@@ -7,7 +7,6 @@ body{
 .top{
 	margin-top: 3%;
 }
-	
 
 .form{
 	background-color: $white;
@@ -33,6 +32,10 @@ p{
 
 a:hover{
 	text-decoration: none;
+}
+
+#clearCompleted{
+	margin-bottom: 5%;
 }
 
 #complete{

@@ -24,6 +24,9 @@ p {
 a:hover {
   text-decoration: none; }
 
+#clearCompleted {
+  margin-bottom: 5%; }
+
 #complete {
   color: #18bc9c; }
 
